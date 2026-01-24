@@ -56,6 +56,8 @@ namespace mvcLab
                 }
             }
 
+            Console.WriteLine("Code With Anas");
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
