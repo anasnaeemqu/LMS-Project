@@ -1,0 +1,15 @@
+﻿@model Course
+
+
+<h1>Main View</h1>
+
+@if (Model != null)
+{
+    <partial name="_CourseCardPV" model="Model" />
+}
+else
+{
+    <div class="alert alert-warning">
+        Course not found.
+    </div>
+}

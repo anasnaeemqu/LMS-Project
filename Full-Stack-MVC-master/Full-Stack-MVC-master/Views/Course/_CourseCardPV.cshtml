@@ -1,0 +1,72 @@
+﻿@model Course
+@* single Course object *@
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">@Model.Name Details (Course ID: @Model.Num)</h3>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+            <strong>Description:</strong> @(string.IsNullOrEmpty(Model.Description) ? "No description provided." : Model.Description)
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Max Degree:</strong> @Model.Degree</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Min Degree:</strong> @Model.MinDegree</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Enrolled Students  *@
+
+@if (Model.StudCourses != null && Model.StudCourses.Any())
+{
+    <h4 class="mt-4 mb-3">Enrolled Students (@Model.StudCourses.Count)</h4>
+    <hr />
+
+    <div class="row">
+        @foreach (var studCourse in Model.StudCourses)
+        {
+            @if (studCourse.Student != null)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-success shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">@studCourse.Student.Name</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text mb-1">
+                                <strong>SSN:</strong> @studCourse.Student.SSN
+                            </p>
+                            <p class="card-text mb-1">
+                                <strong>Age:</strong> @studCourse.Student.Age |
+                                <strong>Gender:</strong> @studCourse.Student.Gender
+                            </p>
+                            <p class="card-text mb-1">
+                                <strong>Address:</strong> @studCourse.Student.Address
+                            </p>
+                            <p class="card-text mb-0">
+                                <strong>Grade:</strong> @(studCourse.Grade.HasValue ? studCourse.Grade.ToString() : "N/A")
+                            </p>
+                        </div>
+                        @if (!string.IsNullOrEmpty(studCourse.Student.Image))
+                        {
+                            <div class="card-footer text-center">
+                                <img src="@studCourse.Student.Image" alt="Student Image" class="img-fluid rounded-circle" style="max-width: 60px; height: auto;" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4">
+        No students are currently enrolled in this course.
+    </div>
+}

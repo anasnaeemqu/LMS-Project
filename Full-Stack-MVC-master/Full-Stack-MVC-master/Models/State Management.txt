@@ -1,0 +1,67 @@
+﻿
+HTTP is Stateless Protocol --------> so we save data between requests by state management
+                            -------> Client side Management , Server Side Management
+ '1'      TempData["Success"] = "Data saved successfully!";     |
+                          return RedirectToAction("Index");     |       '1'
+                                                                |   HttpContext.Application["TotalUsers"] = 10; 
+                                                                |   int total = (int)HttpContext.Application["TotalUsers"];
+ '2'        Response.Cookies["UserName"].Value = "Muhamed";     |
+ Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(1);| 
+                                                                |
+                                                                |
+                                                                |
+ '3' <input type="hidden" name="UserId" value="5" />            |
+                                                                |
+                                                                |
+                                                                |       '2'
+                                                                |
+                                                                |        Server Side Session State Management
+                                                                |        public class AccountController : Controller
+                                                                |        {
+                                                                |           
+                                                                |            public ActionResult Login()
+                                                                |            {
+                                                                |                return View();
+                                                                |            }
+                                                                |        
+                                                                |            [HttpPost]
+                                                                |            public ActionResult Login(string username, string password)
+                                                                |            {
+                                                                |                if (username == "admin" && password == "123")
+                                                                |                {
+                                                                |                    
+                                                                |                    Session["UserName"] = username;
+                                                                |                    Session["Role"] = "Admin";
+                                                                |        
+                                                                |                    return RedirectToAction("Dashboard");
+                                                                |                }
+                                                                |                ViewBag.Error = "Invalid username or password";
+                                                                |                return View();
+                                                                |            }
+                                                                |        
+                                                                |            public ActionResult Dashboard()
+                                                                |            {
+                                                                |               
+                                                                |                if (Session["UserName"] == null)
+                                                                |                {
+                                                                |                    return RedirectToAction("Login");
+                                                                |                }
+                                                                |        
+                                                                |                ViewBag.User = Session["UserName"];
+                                                                |                return View();
+                                                                |            }
+                                                                |        
+                                                                |            public ActionResult Logout()
+                                                                |            {
+                                                                |                
+                                                                |                Session.Clear();
+                                                                |                Session.Abandon();
+                                                                |        
+                                                                |                return RedirectToAction("Login");
+                                                                |            }
+                                                                |        }
+                                                                |        
+                                                                |        
+                                                                |        <system.web>
+                                                                |            <sessionState timeout="30" />
+                                                                |        </system.web>

@@ -1,0 +1,97 @@
+﻿@model Student
+
+<div class="container-fluid px-1 py-5 mx-auto">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+            <h3>Create Student</h3>
+            <p class="blue-text">Fill the form below to register a new student</p>
+
+            <div class="card p-4">
+                <h5 class="text-center mb-4">Student Information</h5>
+
+                <form asp-action="Edit" asp-controller="Student" method="post" class="form-card">
+                    <input type="hidden" asp-for="SSN" />
+
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3" asp-for="Name">Name<span class="text-danger"> *</span></label>
+                            <input class="form-control" asp-for="Name" placeholder="Enter student name" />
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3" asp-for="Age">Age<span class="text-danger"> *</span></label>
+                            <input class="form-control" asp-for="Age" placeholder="Enter age" />
+                            <span class="text-danger" asp-validation-for="Age"></span>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-between text-left">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label class="form-control-label px-3" asp-for="Address">Address<span class="text-danger"> *</span></label>
+                            <input class="form-control" asp-for="Address" placeholder="Enter address" />
+                            <span class="text-danger" asp-validation-for="Address"></span>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-between text-left mt-3">
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3">Gender<span class="text-danger"> *</span></label>
+                            <div class="d-flex align-items-center gap-3 px-3">
+                                <label><input type="radio" asp-for="Gender" value="Male" /> Male</label>
+                                <label><input type="radio" asp-for="Gender" value="Female" /> Female</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-6 flex-column d-flex">
+                            <label class="form-control-label px-3" asp-for="DepartmentId">Department<span class="text-danger"> *</span></label>
+                            <select class="form-select" asp-for="DepartmentId">
+                                <option disabled selected>-- Select Department --</option>
+                                @foreach (var d in ViewBag.Departments)
+                                {
+                                    <option value="@d.Id">@d.Name</option>
+                                }
+                            </select>
+                            <span class="text-danger" asp-validation-for="DepartmentId"></span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <h5 class="text-center mb-3">Assign Courses</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-start">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>Course</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-secondary">
+                                @foreach (var c in ViewBag.Courses)
+                                {
+                                    <tr>
+                                        <td>
+
+                                            <input type="checkbox" name="SelectedCourseIds" value="@c.Num" id="course_@c.Num" />
+                                            <label for="course_@c.Num" class="ms-2">@c.Name</label>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-end mt-4">
+                        <div class="form-group col-sm-6">
+                            <button type="submit" class="btn btn-block btn-primary">Edit Student</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>

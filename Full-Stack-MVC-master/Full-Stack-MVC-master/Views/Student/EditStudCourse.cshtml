@@ -1,0 +1,62 @@
+﻿@model mvcLab.Models.StudCourse
+
+@{
+    ViewData["Title"] = "EditStudCourse";
+}
+
+<h1>Edit Student Course Grade</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<hr />
+<div class="row justify-content-center ">
+    
+    <div class="col-md-4  form form-floating ">
+        <form asp-action="EditStudCourse">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="StudId" />
+            <input type="hidden" asp-for="CourseId" />
+
+            <div class="form-group">
+                <label class="control-label">@ViewBag.student</label>
+                <input asp-for="StudId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">@ViewBag.course</label>
+                <input asp-for="CourseId" class="form-control" readonly />
+            </div>
+
+        
+
+            <!-- Editable field -->
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label"></label>
+                <input asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+
+       
+          
+
+            <div class="form-group">
+                <input type="submit" value="Save Grade" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
