@@ -46,7 +46,7 @@
                                     {
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <span>@studCourse.CourseName</span>
-                                            <a class="badge bg-primary text-dark rounded-pill" asp-action="EditStudCourse" asp-controller="Student"><i class="bi bi-pen-fill"></i>Edit</a>
+                                            <a class="badge bg-primary text-dark rounded-pill" asp-action="EditStudCourse" asp-controller="Student" asp-route-studentId="@studCourse.StudentId" asp-route-courseId="@studCourse.CourseId"><i class="bi bi-pen-fill"></i>Edit</a>
 
                                             <span>min:@studCourse.minDegree</span><span style=" color: @studCourse.Color;">Grade: @(studCourse.Grade)</span><span>max:@studCourse.maxDegree</span>
                                         </li>

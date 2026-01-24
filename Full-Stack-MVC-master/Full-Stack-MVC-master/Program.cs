@@ -18,6 +18,7 @@ namespace mvcLab
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSession();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(op =>
             {
@@ -66,6 +67,7 @@ namespace mvcLab
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

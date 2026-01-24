@@ -14,6 +14,8 @@ namespace mvcLab.Models
         public DbSet<InstructorCourse> InstructorCourses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DeptCourse> DeptCourses { get; set; }
+        public DbSet<Admin> Admin { get; set; }
+        public DbSet<Mark> Marks { get; set; }
        
     }
 }

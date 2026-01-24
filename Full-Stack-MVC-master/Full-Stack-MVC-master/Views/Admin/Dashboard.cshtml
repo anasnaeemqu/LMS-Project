@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Admin Dashboard</h1>
+    
+    <div class="row">
+        <!-- Courses Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-primary"><i class="bi bi-book"></i> Courses</h3>
+                    <p class="card-text">Manage all courses: Add, Edit, Delete.</p>
+                    <a asp-controller="Course" asp-action="Index" class="btn btn-outline-primary">Manage Courses</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Departments Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-success"><i class="bi bi-building"></i> Departments</h3>
+                    <p class="card-text">Manage departments and assign managers.</p>
+                    <a asp-controller="Department" asp-action="Index" class="btn btn-outline-success">Manage Departments</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-info">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-info"><i class="bi bi-people"></i> Students</h3>
+                    <p class="card-text">Manage students, enrollments and marks.</p>
+                    <a asp-controller="Student" asp-action="Index" class="btn btn-outline-info">Manage Students</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructors Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-warning">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-warning"><i class="bi bi-person-badge"></i> Instructors</h3>
+                    <p class="card-text">Manage instructors and course assignments.</p>
+                    <a asp-controller="Instructor" asp-action="Index" class="btn btn-outline-warning">Manage Instructors</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marks / Assign Grades (Shortcut to Student List conceptually) -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-danger">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-danger"><i class="bi bi-award"></i> Marks</h3>
+                    <p class="card-text">Assign or update student marks for courses.</p>
+                    <a asp-controller="Student" asp-action="Index" class="btn btn-outline-danger">Manage Marks (via Students)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

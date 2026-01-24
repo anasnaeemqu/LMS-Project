@@ -23,7 +23,11 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item"><a class="nav-link active" asp-action="Index" asp-controller="Home">Home</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="Dashboard" asp-controller="Admin">Admin Dashboard</a></li>
+                        }
+                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Student">Student</a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Course">Course</a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Department">Department</a></li>
@@ -39,6 +43,7 @@
                     {
                         <li class="nav-item"><a class="nav-link" asp-action="Register" asp-controller="Account">Register</a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Admin">Admin Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
                     }
 

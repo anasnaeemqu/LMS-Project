@@ -54,6 +54,7 @@ namespace mvcLab.Controllers
                 {
                 StudCourseVM studCourseVM = new StudCourseVM();
                     studCourseVM.StudentId = (int)course.StudId;
+                    studCourseVM.CourseId = course.CourseId ?? 0;
                 studCourseVM.CourseName = course.Course.Name;
                     studCourseVM.Grade = course.Grade??0;
                     if (studCourseVM.Grade <= 50) { studCourseVM.Color = "red"; } else { studCourseVM.Color = "green"; };
