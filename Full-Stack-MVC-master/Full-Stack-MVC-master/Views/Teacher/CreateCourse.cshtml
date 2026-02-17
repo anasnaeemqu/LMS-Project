@@ -1,0 +1,40 @@
+@model mvcLab.Models.Course
+
+@{
+    ViewData["Title"] = "Create Course";
+}
+
+<div class="container mt-4">
+    <h2>Create New Course</h2>
+    <hr />
+    <form asp-action="CreateCourse">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Degree" class="form-label">Total Degree</label>
+            <input asp-for="Degree" class="form-control" type="number" />
+            <span asp-validation-for="Degree" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="MinDegree" class="form-label">Passing Degree</label>
+            <input asp-for="MinDegree" class="form-control" type="number" />
+            <span asp-validation-for="MinDegree" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Course</button>
+        <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

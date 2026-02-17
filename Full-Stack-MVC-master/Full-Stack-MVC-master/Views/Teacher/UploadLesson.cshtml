@@ -1,0 +1,33 @@
+@model mvcLab.Models.Lesson
+
+@{
+    ViewData["Title"] = "Upload Lesson";
+}
+
+<div class="container mt-4">
+    <h2>Upload Lesson</h2>
+    <hr />
+    <form asp-action="UploadLesson">
+        <input type="hidden" asp-for="CourseId" value="@ViewBag.CourseId" />
+        
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Content" class="form-label">Content (HTML allowed)</label>
+            <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+             <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="VideoUrl" class="form-label">Video URL</label>
+            <input asp-for="VideoUrl" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Lesson</button>
+        <a asp-action="CourseDetails" asp-route-id="@ViewBag.CourseId" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

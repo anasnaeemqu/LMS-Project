@@ -1,0 +1,60 @@
+@model mvcLab.Models.Course
+
+@{
+    ViewData["Title"] = "Course management";
+}
+
+<div class="container mt-4">
+    <h2>@Model.Name</h2>
+    <p class="text-muted">@Model.Description</p>
+    
+    <div class="row mt-4">
+        <!-- Lessons Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Lessons</h5>
+                    <a asp-action="UploadLesson" asp-route-courseId="@Model.Num" class="btn btn-sm btn-light">Add Lesson</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @if (ViewBag.Lessons != null)
+                    {
+                        foreach (var lesson in (IEnumerable<mvcLab.Models.Lesson>)ViewBag.Lessons)
+                        {
+                            <li class="list-group-item">
+                                <strong>@lesson.Title</strong>
+                                @if(!string.IsNullOrEmpty(lesson.VideoUrl)) { <br/><small><a href="@lesson.VideoUrl" target="_blank">Watch Video</a></small> }
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <!-- Assignments Section -->
+        <div class="col-md-6">
+             <div class="card">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Assignments</h5>
+                    <a asp-action="CreateAssignment" asp-route-courseId="@Model.Num" class="btn btn-sm btn-light">Add Assignment</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @if (ViewBag.Assignments != null)
+                    {
+                        foreach (var assign in (IEnumerable<mvcLab.Models.Assignment>)ViewBag.Assignments)
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>@assign.Title <br/> <small>Due: @assign.DueDate</small></span>
+                                <a asp-action="ViewSubmissions" asp-route-assignmentId="@assign.Id" class="btn btn-sm btn-outline-primary">Submissions</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-3">
+        <a asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>

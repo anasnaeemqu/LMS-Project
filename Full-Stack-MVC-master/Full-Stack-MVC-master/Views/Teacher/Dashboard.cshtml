@@ -1,0 +1,46 @@
+@model IEnumerable<mvcLab.Models.Course>
+
+@{
+    ViewData["Title"] = "Teacher Dashboard";
+}
+
+<div class="container mt-4">
+    <h2>Teacher Dashboard</h2>
+    <hr />
+    <div class="row mb-3">
+        <div class="col">
+            <a asp-action="CreateCourse" class="btn btn-primary">Create New Course</a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">You haven't created any courses yet.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Description</th>
+                    <th>Degree</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.Degree</td>
+                        <td>
+                            <a asp-action="CourseDetails" asp-route-id="@item.Num" class="btn btn-sm btn-info">Manage</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
