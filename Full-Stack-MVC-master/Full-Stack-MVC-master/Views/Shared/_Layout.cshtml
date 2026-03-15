@@ -3,199 +3,227 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Full Width Pics - Start Bootstrap Template</title>
-    <!-- Favicon-->
+    <meta name="description" content="Learning Management System" />
+    <title>LMS Portal</title>
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="~/css/_Layout.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Dashboard CSS (our new design) -->
+    <link href="~/css/dashboard.css" rel="stylesheet" />
+    <!-- Legacy CSS kept for other pages -->
+    <link href="~/css/site.css" rel="stylesheet" />
 </head>
-<body>
-    <!-- Responsive navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#!">Welcome @User.Identity.Name</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item"><a class="nav-link" asp-action="Dashboard" asp-controller="Admin">Admin Dashboard</a></li>
-                        }
-                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Student">Student</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Course">Course</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Department">Department</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Instructor">Instructor</a></li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item"><a class="nav-link" asp-action="AddRole" asp-controller="Role">Add Role</a></li>
-                        }
-                        <li class="nav-item"><a class="nav-link" asp-action="SignOut" asp-controller="Account">SignOut</a></li>
+<body class="lms-body">
 
-                    }
-                    else
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-action="Register" asp-controller="Account">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Account">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Login" asp-controller="Admin">Admin Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                    }
+    <!-- ══════════════════════════════════════════════════════════
+         TOP NAVBAR
+    ══════════════════════════════════════════════════════════ -->
+    <nav class="lms-navbar">
+        <!-- Left: Hamburger + Brand -->
+        <div class="d-flex align-items-center gap-2">
+            <button class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle sidebar">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand-lms" asp-action="Index" asp-controller="Home">
+                <div class="brand-icon">
+                    <i class="fa fa-graduation-cap"></i>
+                </div>
+                LMS Portal
+            </a>
+        </div>
 
-                </ul>
-            </div>
+        <!-- Right: Auth Links -->
+        <div class="lms-navbar-right">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <!-- Authenticated user badge -->
+                <div class="lms-user-badge">
+                    <div class="user-avatar">
+                        @(User.Identity.Name?.Length > 0 ? User.Identity.Name.Substring(0,1).ToUpper() : "U")
+                    </div>
+                    <span class="d-none d-md-inline">@User.Identity.Name</span>
+                </div>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="nav-link-lms btn-nav-solid" asp-action="Dashboard" asp-controller="Admin">
+                        <i class="fa fa-shield-halved"></i>
+                        <span>Admin</span>
+                    </a>
+                }
+
+                <a class="nav-link-lms" asp-action="Index" asp-controller="Home">
+                    <i class="fa fa-house"></i>
+                    <span>Home</span>
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="nav-link-lms" asp-action="AddRole" asp-controller="Role">
+                        <i class="fa fa-user-tag"></i>
+                        <span>Roles</span>
+                    </a>
+                }
+
+                <a class="nav-link-lms btn-nav-danger" asp-action="SignOut" asp-controller="Account">
+                    <i class="fa fa-right-from-bracket"></i>
+                    <span>Sign Out</span>
+                </a>
+            }
+            else
+            {
+                <a class="nav-link-lms" asp-action="Register" asp-controller="Account">
+                    <i class="fa fa-user-plus"></i>
+                    <span>Register</span>
+                </a>
+                <a class="nav-link-lms btn-nav-outline" asp-action="Login" asp-controller="Account">
+                    <i class="fa fa-right-to-bracket"></i>
+                    <span>Login</span>
+                </a>
+                <a class="nav-link-lms btn-nav-solid" asp-action="Login" asp-controller="Admin">
+                    <i class="fa fa-shield-halved"></i>
+                    <span>Admin Login</span>
+                </a>
+            }
         </div>
     </nav>
-    @RenderBody()
-    <!-- Image element - set the background image for the header in the line below-->
-    <div class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/4ulffa6qoKA/1200x800')">
-        <!-- Put anything you want here! The spacer below with inline CSS is just for demo purposes!-->
-        <div style="height: 20rem"></div>
-    </div>
-    <!-- Content section-->
-    <!--====== TEAM STYLE ONE START ======-->
-    <section class="team-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="single-team text-center team-style-one">
-                        <div class="team-image">
-                            <img src="https://cdn.ayroui.com/1.0/images/team/team-1.jpg" alt="Team" />
-                        </div>
-                        <div class="team-content">
-                            <h4 class="name">Jeffery Riley</h4>
-                            <span class="sub-title">Art Director</span>
-                            <ul class="social">
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-facebook-filled"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-twitter-original"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-linkedin-original"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- single team -->
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="single-team text-center team-style-one">
-                        <div class="team-image">
-                            <img src="https://cdn.ayroui.com/1.0/images/team/team-2.jpg" alt="Team" />
-                        </div>
-                        <div class="team-content">
-                            <h4 class="name">Riley Beata</h4>
-                            <span class="sub-title">Art Director</span>
-                            <ul class="social">
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-facebook-filled"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-twitter-original"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-linkedin-original"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- single team -->
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="single-team text-center team-style-one">
-                        <div class="team-image">
-                            <img src="https://cdn.ayroui.com/1.0/images/team/team-3.jpg" alt="Team" />
-                        </div>
-                        <div class="team-content">
-                            <h4 class="name">Kamil Kiwis</h4>
-                            <span class="sub-title">Art Director</span>
-                            <ul class="social">
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-facebook-filled"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-twitter-original"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-linkedin-original"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- single team -->
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="single-team text-center team-style-one">
-                        <div class="team-image">
-                            <img src="https://cdn.ayroui.com/1.0/images/team/team-4.jpg" alt="Team" />
-                        </div>
-                        <div class="team-content">
-                            <h4 class="name">Kamil Kiwis</h4>
-                            <span class="sub-title">Art Director</span>
-                            <ul class="social">
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-facebook-filled"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-twitter-original"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-linkedin-original"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- single team -->
-                </div>
-            </div>
-            <!-- row -->
-        </div>
-        <!-- container -->
-    </section>
-    <!--====== TEAM STYLE ONE ENDS ======-->
-    <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2025</p></div>
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="~/js/scripts.js"></script>
 
+    <!-- ══════════════════════════════════════════════════════════
+         SIDEBAR
+    ══════════════════════════════════════════════════════════ -->
+    <aside class="lms-sidebar" id="lmsSidebar">
+        <div class="lms-sidebar-section">Main Menu</div>
+
+        <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+           asp-action="Index" asp-controller="Home">
+            <span class="nav-icon"><i class="fa fa-gauge-high"></i></span>
+            <span class="nav-label">Dashboard</span>
+        </a>
+
+        <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Course" ? "active" : "")"
+           asp-action="Index" asp-controller="Course">
+            <span class="nav-icon"><i class="fa fa-book-open"></i></span>
+            <span class="nav-label">Courses</span>
+        </a>
+
+        <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Student" ? "active" : "")"
+           asp-action="Index" asp-controller="Student">
+            <span class="nav-icon"><i class="fa fa-user-graduate"></i></span>
+            <span class="nav-label">Students</span>
+        </a>
+
+        <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Instructor" ? "active" : "")"
+           asp-action="Index" asp-controller="Instructor">
+            <span class="nav-icon"><i class="fa fa-chalkboard-user"></i></span>
+            <span class="nav-label">Instructors</span>
+        </a>
+
+        <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Department" ? "active" : "")"
+           asp-action="Index" asp-controller="Department">
+            <span class="nav-icon"><i class="fa fa-building-columns"></i></span>
+            <span class="nav-label">Departments</span>
+        </a>
+
+        @if (User.IsInRole("Teacher"))
+        {
+            <div class="sidebar-divider"></div>
+            <div class="lms-sidebar-section">Teacher</div>
+
+            <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Teacher" ? "active" : "")"
+               asp-action="Dashboard" asp-controller="Teacher">
+                <span class="nav-icon"><i class="fa fa-person-chalkboard"></i></span>
+                <span class="nav-label">Teacher Portal</span>
+            </a>
+        }
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="sidebar-divider"></div>
+            <div class="lms-sidebar-section">Admin</div>
+
+            <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" ? "active" : "")"
+               asp-action="Dashboard" asp-controller="Admin">
+                <span class="nav-icon"><i class="fa fa-shield-halved"></i></span>
+                <span class="nav-label">Admin Dashboard</span>
+            </a>
+
+            <a class="lms-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Role" ? "active" : "")"
+               asp-action="AddRole" asp-controller="Role">
+                <span class="nav-icon"><i class="fa fa-user-tag"></i></span>
+                <span class="nav-label">Manage Roles</span>
+            </a>
+        }
+    </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         MAIN CONTENT
+    ══════════════════════════════════════════════════════════ -->
+    <main class="lms-main" id="lmsMain">
+        @RenderBody()
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════════════════════ -->
+    <footer class="lms-footer">
+        Copyright &copy; LMS Portal @DateTime.Now.Year &mdash; Learning Management System
+    </footer>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SCRIPTS
+    ══════════════════════════════════════════════════════════ -->
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Validation scripts for forms -->
     <script src="~/Scripts/jquery-3.7.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <!-- Sidebar toggle script -->
+    <script>
+        (function () {
+            var btn = document.getElementById('sidebarToggle');
+            var sidebar = document.getElementById('lmsSidebar');
+            var main = document.getElementById('lmsMain');
+            var overlay = document.getElementById('sidebarOverlay');
+            var isMobile = window.innerWidth <= 768;
+
+            function toggleSidebar() {
+                isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    sidebar.classList.toggle('mobile-open');
+                    overlay.classList.toggle('active');
+                } else {
+                    sidebar.classList.toggle('collapsed');
+                    main.classList.toggle('sidebar-collapsed-main');
+                    if (sidebar.classList.contains('collapsed')) {
+                        main.style.marginLeft = '60px';
+                    } else {
+                        main.style.marginLeft = '240px';
+                    }
+                }
+            }
+
+            if (btn) btn.addEventListener('click', toggleSidebar);
+            if (overlay) overlay.addEventListener('click', function () {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            });
+
+            window.addEventListener('resize', function () {
+                isMobile = window.innerWidth <= 768;
+                if (!isMobile) {
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            });
+        })();
+    </script>
     @RenderSection("Scripts", required: false)
 
 </body>

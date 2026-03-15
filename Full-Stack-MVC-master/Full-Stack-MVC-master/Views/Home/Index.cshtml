@@ -1,90 +1,266 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
-<link href="~/css/Home.css" rel="stylesheet" />
-<!--====== BLOG PART START ======-->
-<section class="blog-area pb-5">
-    <div class="container p-1">
-        <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-8 col-sm-10">
-                <div class="single-blog blog-style-one">
-                    <div class="blog-image">
-                        <a href="javascript:void(0)">
-                            <img src="https://cdn.ayroui.com/1.0/images/blog/1.jpg" alt="Blog" />
-                        </a>
-                        <a href="javascript:void(0)" class="category">Technology</a>
-                    </div>
-                    <div class="blog-content">
-                        <h5 class="blog-title">
-                            <a href="javascript:void(0)">
-                                Budget-Friendly Design Ideas to Transform Your Office
-                            </a>
-                        </h5>
-                        <span><i class="lni lni-calendar"></i> Mar 23, 2022</span>
-                        <span><i class="lni lni-comments-alt"></i> 24 Comment</span>
-                        <p class="text">
-                            Create a workspace your team will love with these money-saving
-                            interior Ui/Ux design tips Learn how People.
-                        </p>
-                        <a class="more" href="javascript:void(0)">READ MORE</a>
-                    </div>
+
+<!-- ══════════════════════════════════════════════════════
+     WELCOME HEADER
+══════════════════════════════════════════════════════ -->
+<div class="lms-welcome">
+    <div>
+        <h1>
+            <i class="fa fa-hand-wave" style="color:#f6a623; font-size:1.3rem;"></i>
+            Welcome back@(User.Identity.IsAuthenticated && !string.IsNullOrEmpty(User.Identity.Name) ? ", " + User.Identity.Name : "")!
+        </h1>
+        <p>Here&rsquo;s an overview of your Learning Management System.</p>
+    </div>
+    <div class="lms-welcome-date">
+        <i class="fa fa-calendar-days me-1"></i>
+        @DateTime.Now.ToString("dddd, MMMM d, yyyy")
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     STATISTICS CARDS
+══════════════════════════════════════════════════════ -->
+<div class="lms-stats-row">
+
+    <div class="lms-stat-card">
+        <div class="lms-stat-icon stat-icon-blue">
+            <i class="fa fa-book-open"></i>
+        </div>
+        <div class="lms-stat-info">
+            <div class="lms-stat-number">—</div>
+            <div class="lms-stat-label">Total Courses</div>
+            <div class="lms-stat-badge"><i class="fa fa-arrow-trend-up"></i> Active</div>
+        </div>
+    </div>
+
+    <div class="lms-stat-card">
+        <div class="lms-stat-icon stat-icon-green">
+            <i class="fa fa-user-graduate"></i>
+        </div>
+        <div class="lms-stat-info">
+            <div class="lms-stat-number">—</div>
+            <div class="lms-stat-label">Total Students</div>
+            <div class="lms-stat-badge"><i class="fa fa-arrow-trend-up"></i> Enrolled</div>
+        </div>
+    </div>
+
+    <div class="lms-stat-card">
+        <div class="lms-stat-icon stat-icon-orange">
+            <i class="fa fa-chalkboard-user"></i>
+        </div>
+        <div class="lms-stat-info">
+            <div class="lms-stat-number">—</div>
+            <div class="lms-stat-label">Total Instructors</div>
+            <div class="lms-stat-badge"><i class="fa fa-circle-check"></i> Active</div>
+        </div>
+    </div>
+
+    <div class="lms-stat-card">
+        <div class="lms-stat-icon stat-icon-purple">
+            <i class="fa fa-id-card"></i>
+        </div>
+        <div class="lms-stat-info">
+            <div class="lms-stat-number">—</div>
+            <div class="lms-stat-label">Active Enrollments</div>
+            <div class="lms-stat-badge"><i class="fa fa-clock"></i> Ongoing</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     QUICK ACTIONS
+══════════════════════════════════════════════════════ -->
+<div class="lms-panel">
+    <div class="lms-panel-header">
+        <h2 class="lms-panel-title">
+            <span class="panel-icon"><i class="fa fa-bolt"></i></span>
+            Quick Actions
+        </h2>
+    </div>
+    <div class="lms-panel-body">
+        <div class="lms-quick-links">
+
+            <a class="lms-quick-link" asp-action="Index" asp-controller="Course">
+                <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#4e9af1,#667eea);">
+                    <i class="fa fa-book-open"></i>
                 </div>
-                <!-- single blog -->
-            </div>
-            <div class="col-lg-4 col-md-8 col-sm-10">
-                <div class="single-blog blog-style-one">
-                    <div class="blog-image">
-                        <a href="javascript:void(0)">
-                            <img src="https://cdn.ayroui.com/1.0/images/blog/2.jpg" alt="Blog" />
-                        </a>
-                        <a href="javascript:void(0)" class="category">Lifestyle</a>
-                    </div>
-                    <div class="blog-content">
-                        <h5 class="blog-title">
-                            <a href="javascript:void(0)">
-                                Budget-Friendly Design Ideas to Transform Your Office
-                            </a>
-                        </h5>
-                        <span><i class="lni lni-calendar"></i> Mar 23, 2022</span>
-                        <span><i class="lni lni-comments-alt"></i> 24 Comment</span>
-                        <p class="text">
-                            Create a workspace your team will love with these money-saving
-                            interior Ui/Ux design tips Learn how People.
-                        </p>
-                        <a class="more" href="javascript:void(0)">READ MORE</a>
-                    </div>
+                Courses
+            </a>
+
+            <a class="lms-quick-link" asp-action="Index" asp-controller="Student">
+                <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#43c98a,#38b575);">
+                    <i class="fa fa-user-graduate"></i>
                 </div>
-                <!-- single blog -->
-            </div>
-            <div class="col-lg-4 col-md-8 col-sm-10">
-                <div class="single-blog blog-style-one">
-                    <div class="blog-image">
-                        <a href="javascript:void(0)">
-                            <img src="https://cdn.ayroui.com/1.0/images/blog/3.jpg" alt="Blog" />
-                        </a>
-                        <a href="javascript:void(0)" class="category">Science</a>
-                    </div>
-                    <div class="blog-content">
-                        <h5 class="blog-title">
-                            <a href="javascript:void(0)">
-                                Budget-Friendly Design Ideas to Transform Your Office
-                            </a>
-                        </h5>
-                        <span><i class="lni lni-calendar"></i> Mar 23, 2022</span>
-                        <span><i class="lni lni-comments-alt"></i> 24 Comment</span>
-                        <p class="text">
-                            Create a workspace your team will love with these money-saving
-                            interior Ui/Ux design tips Learn how People.
-                        </p>
-                        <a class="more" href="javascript:void(0)">READ MORE</a>
-                    </div>
+                Students
+            </a>
+
+            <a class="lms-quick-link" asp-action="Index" asp-controller="Instructor">
+                <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#f6a623,#f5871f);">
+                    <i class="fa fa-chalkboard-user"></i>
                 </div>
-                <!-- single blog -->
+                Instructors
+            </a>
+
+            <a class="lms-quick-link" asp-action="Index" asp-controller="Department">
+                <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#9b59b6,#8e44ad);">
+                    <i class="fa fa-building-columns"></i>
+                </div>
+                Departments
+            </a>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="lms-quick-link" asp-action="Dashboard" asp-controller="Admin">
+                    <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#e53e3e,#c0392b);">
+                        <i class="fa fa-shield-halved"></i>
+                    </div>
+                    Admin Panel
+                </a>
+
+                <a class="lms-quick-link" asp-action="AddRole" asp-controller="Role">
+                    <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#2980b9,#1a6fa8);">
+                        <i class="fa fa-user-tag"></i>
+                    </div>
+                    Manage Roles
+                </a>
+            }
+
+            @if (User.IsInRole("Teacher"))
+            {
+                <a class="lms-quick-link" asp-action="Dashboard" asp-controller="Teacher">
+                    <div class="lms-quick-link-icon" style="background: linear-gradient(135deg,#27ae60,#1e9151);">
+                        <i class="fa fa-person-chalkboard"></i>
+                    </div>
+                    Teacher Portal
+                </a>
+            }
+
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     COURSES OVERVIEW TABLE  +  SYSTEM INFO
+══════════════════════════════════════════════════════ -->
+<div class="lms-two-col">
+
+    <!-- Left: Courses Table -->
+    <div class="lms-panel">
+        <div class="lms-panel-header">
+            <h2 class="lms-panel-title">
+                <span class="panel-icon"><i class="fa fa-book-open"></i></span>
+                Courses Overview
+            </h2>
+            <a class="lms-btn-sm lms-btn-primary" asp-action="Index" asp-controller="Course">
+                <i class="fa fa-list"></i> View All
+            </a>
+        </div>
+        <div class="lms-panel-body" style="padding: 0;">
+            <div class="lms-table-wrap">
+                <table class="lms-table">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding: 32px; color:#8b97b5;">
+                                <i class="fa fa-circle-info" style="font-size:1.5rem; display:block; margin-bottom:8px;"></i>
+                                Navigate to <a asp-action="Index" asp-controller="Course" style="color:#4e9af1; font-weight:600;">Courses</a>
+                                to view and manage all courses.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- row -->
     </div>
-    <!-- container -->
-</section>
-<!--====== BLOG PART ENDS ======-->
 
+    <!-- Right: System Info / Activity -->
+    <div>
+        <!-- System Status Card -->
+        <div class="lms-panel mb-0">
+            <div class="lms-panel-header">
+                <h2 class="lms-panel-title">
+                    <span class="panel-icon"><i class="fa fa-circle-info"></i></span>
+                    System Info
+                </h2>
+            </div>
+            <div class="lms-panel-body">
+                <ul class="lms-activity-list">
+                    <li class="lms-activity-item">
+                        <div class="lms-activity-dot" style="background:#4e9af1;"></div>
+                        <div>
+                            <div class="lms-activity-text"><strong>Platform</strong> — LMS Portal</div>
+                            <div class="lms-activity-time">Learning Management System</div>
+                        </div>
+                    </li>
+                    <li class="lms-activity-item">
+                        <div class="lms-activity-dot" style="background:#43c98a;"></div>
+                        <div>
+                            <div class="lms-activity-text"><strong>Status</strong> — <span class="lms-badge lms-badge-success">Online</span></div>
+                            <div class="lms-activity-time">All systems operational</div>
+                        </div>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="lms-activity-item">
+                            <div class="lms-activity-dot" style="background:#f6a623;"></div>
+                            <div>
+                                <div class="lms-activity-text"><strong>Logged in as</strong> — @User.Identity.Name</div>
+                                <div class="lms-activity-time">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <span class="lms-badge lms-badge-danger">Admin</span>
+                                    }
+                                    else if (User.IsInRole("Teacher"))
+                                    {
+                                        <span class="lms-badge lms-badge-info">Teacher</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="lms-badge lms-badge-success">Student</span>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    }
+                    <li class="lms-activity-item">
+                        <div class="lms-activity-dot" style="background:#9b59b6;"></div>
+                        <div>
+                            <div class="lms-activity-text"><strong>Server Time</strong></div>
+                            <div class="lms-activity-time">@DateTime.Now.ToString("HH:mm — ddd d MMM yyyy")</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Note for unauthenticated users -->
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="lms-info-box mt-3">
+                <div class="lms-info-box-icon">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <div>
+                    <h4>Access Required</h4>
+                    <p>
+                        Please <a asp-action="Login" asp-controller="Account" style="color:#4e9af1;font-weight:600;">log in</a>
+                        or <a asp-action="Register" asp-controller="Account" style="color:#4e9af1;font-weight:600;">register</a>
+                        to access all LMS features.
+                    </p>
+                </div>
+            </div>
+        }
+
+    </div><!-- /right column -->
+
+</div><!-- /lms-two-col -->
