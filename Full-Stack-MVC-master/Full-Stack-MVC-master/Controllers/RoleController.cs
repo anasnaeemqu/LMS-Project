@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using mvcLab.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace mvcLab.Controllers
@@ -12,6 +14,15 @@ namespace mvcLab.Controllers
         {
             this._roleManager = roleManager;
         }
+
+        // NEW: List all roles
+        [HttpGet]
+        public IActionResult Index()
+        {
+            List<IdentityRole> roles = _roleManager.Roles.ToList();
+            return View(roles);
+        }
+
         [HttpGet]
         public IActionResult AddRole()
         {

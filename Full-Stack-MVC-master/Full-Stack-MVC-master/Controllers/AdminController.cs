@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using mvcLab.Models;
 using System.Security.Claims;
 using BCrypt.Net;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace mvcLab.Controllers
 {
@@ -80,12 +82,49 @@ namespace mvcLab.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Dashboard()
         {
-            // Ensure session is set (redundant check if cookie is valid but good for strictness)
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("AdminUser")))
-            {
-                // In case session expired but cookie didn't, optional re-sync or continue.
-            }
-            return View();
+            var viewModel = new mvcLab.ViewModels.DashboardAnalyticsVM();
+
+            // Total counts
+            viewModel.TotalStudents = _context.Students.Count();
+            viewModel.TotalCourses = _context.Courses.Count();
+            viewModel.TotalInstructors = _context.Instructors.Count();
+            viewModel.TotalDepartments = _context.Departments.Count();
+
+            // Enrollment by Department
+            viewModel.DeptEnrollment = _context.Departments
+                .Select(d => new mvcLab.ViewModels.ChartDataItem { 
+                    Label = d.Name, 
+                    Value = _context.Students.Count(s => s.DepartmentId == d.Id) 
+                }).ToList();
+
+            // Course Average Marks
+            viewModel.CourseAvgMarks = _context.Courses
+                .Select(c => new mvcLab.ViewModels.ChartDataItem { 
+                    Label = c.Name, 
+                    Value = _context.Marks.Where(m => m.CourseId == c.Num).Any() 
+                        ? (double)_context.Marks.Where(m => m.CourseId == c.Num).Average(m => m.Marks) 
+                        : 0 
+                }).ToList();
+
+            // Gender Distribution
+            viewModel.GenderDist = _context.Students
+                .GroupBy(s => s.Gender)
+                .Select(g => new mvcLab.ViewModels.ChartDataItem { 
+                    Label = g.Key, 
+                    Value = (double)g.Count() 
+                }).ToList();
+
+            // Popular Courses (Top 5)
+            viewModel.PopularCourses = _context.Courses
+                .Select(c => new mvcLab.ViewModels.ChartDataItem { 
+                    Label = c.Name, 
+                    Value = (double)_context.StudCourses.Count(sc => sc.CourseId == c.Num) 
+                })
+                .OrderByDescending(x => x.Value)
+                .Take(5)
+                .ToList();
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Logout()

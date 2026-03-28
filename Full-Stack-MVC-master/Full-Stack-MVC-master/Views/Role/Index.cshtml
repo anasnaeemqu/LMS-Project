@@ -1,0 +1,73 @@
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<!-- Dashboard-styled Roles List page -->
+<div class="lms-welcome">
+    <div>
+        <h1><i class="fa fa-user-tag" style="color:#4e9af1;"></i> Roles Management</h1>
+        <p>All roles currently registered in the system.</p>
+    </div>
+    <div>
+        <a class="lms-btn-sm lms-btn-primary" asp-action="AddRole">
+            <i class="fa fa-plus"></i> Add New Role
+        </a>
+    </div>
+</div>
+
+<div class="lms-panel">
+    <div class="lms-panel-header">
+        <h2 class="lms-panel-title">
+            <span class="panel-icon"><i class="fa fa-list"></i></span>
+            All Roles
+        </h2>
+        <span class="lms-badge lms-badge-info">@Model.Count() role(s)</span>
+    </div>
+    <div class="lms-panel-body" style="padding: 0;">
+        @if (!Model.Any())
+        {
+            <div style="text-align:center; padding:36px; color:#8b97b5;">
+                <i class="fa fa-circle-info" style="font-size:1.8rem; display:block; margin-bottom:10px;"></i>
+                No roles have been created yet.
+                <br />
+                <a asp-action="AddRole" class="lms-btn-sm lms-btn-primary" style="margin-top:14px; display:inline-flex;">
+                    <i class="fa fa-plus"></i> Create First Role
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="lms-table-wrap">
+                <table class="lms-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Role ID</th>
+                            <th>Role Name</th>
+                            <th>Normalized Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int i = 1; }
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td style="font-size:0.78rem; color:#9ba8c5; font-family:monospace;">@role.Id</td>
+                                <td>
+                                    <span class="lms-badge lms-badge-info">
+                                        <i class="fa fa-shield-halved me-1"></i>@role.Name
+                                    </span>
+                                </td>
+                                <td style="color:#8b97b5;">@role.NormalizedName</td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

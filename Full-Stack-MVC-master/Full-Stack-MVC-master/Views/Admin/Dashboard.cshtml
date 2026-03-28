@@ -1,64 +1,247 @@
+@model mvcLab.ViewModels.DashboardAnalyticsVM
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="container mt-5">
-    <h1 class="mb-4">Admin Dashboard</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Admin Dashboard</h1>
+        <div class="text-muted">
+            <i class="bi bi-calendar3"></i> @DateTime.Now.ToString("MMMM dd, yyyy")
+        </div>
+    </div>
     
+    <!-- Top Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Total Students</h6>
+                            <h2 class="mb-0">@Model.TotalStudents</h2>
+                        </div>
+                        <i class="bi bi-people fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Total Courses</h6>
+                            <h2 class="mb-0">@Model.TotalCourses</h2>
+                        </div>
+                        <i class="bi bi-book fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Instructors</h6>
+                            <h2 class="mb-0">@Model.TotalInstructors</h2>
+                        </div>
+                        <i class="bi bi-person-badge fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase mb-1">Departments</h6>
+                            <h2 class="mb-0">@Model.TotalDepartments</h2>
+                        </div>
+                        <i class="bi bi-building fs-1 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row mb-4">
+        <!-- Enrollment by Department (Doughnut) -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0">Enrollment by Department</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="deptChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Course Performance (Bar) -->
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0">Course Average Marks</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="courseChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row mb-4">
+        <!-- Popular Courses (Horizontal Bar) -->
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0">Top 5 Popular Courses</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="popularChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Gender Distribution (Pie) -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0">Student Gender</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="genderChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Quick Links -->
     <div class="row">
-        <!-- Courses Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-primary">
-                <div class="card-body text-center">
-                    <h3 class="card-title text-primary"><i class="bi bi-book"></i> Courses</h3>
-                    <p class="card-text">Manage all courses: Add, Edit, Delete.</p>
-                    <a asp-controller="Course" asp-action="Index" class="btn btn-outline-primary">Manage Courses</a>
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0">System Management</h5>
                 </div>
-            </div>
-        </div>
-
-        <!-- Departments Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-success">
-                <div class="card-body text-center">
-                    <h3 class="card-title text-success"><i class="bi bi-building"></i> Departments</h3>
-                    <p class="card-text">Manage departments and assign managers.</p>
-                    <a asp-controller="Department" asp-action="Index" class="btn btn-outline-success">Manage Departments</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Students Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-info">
-                <div class="card-body text-center">
-                    <h3 class="card-title text-info"><i class="bi bi-people"></i> Students</h3>
-                    <p class="card-text">Manage students, enrollments and marks.</p>
-                    <a asp-controller="Student" asp-action="Index" class="btn btn-outline-info">Manage Students</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Instructors Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-warning">
-                <div class="card-body text-center">
-                    <h3 class="card-title text-warning"><i class="bi bi-person-badge"></i> Instructors</h3>
-                    <p class="card-text">Manage instructors and course assignments.</p>
-                    <a asp-controller="Instructor" asp-action="Index" class="btn btn-outline-warning">Manage Instructors</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Marks / Assign Grades (Shortcut to Student List conceptually) -->
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-danger">
-                <div class="card-body text-center">
-                    <h3 class="card-title text-danger"><i class="bi bi-award"></i> Marks</h3>
-                    <p class="card-text">Assign or update student marks for courses.</p>
-                    <a asp-controller="Student" asp-action="Index" class="btn btn-outline-danger">Manage Marks (via Students)</a>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a asp-controller="Course" asp-action="Index" class="btn btn-outline-primary"><i class="bi bi-gear"></i> Courses</a>
+                        <a asp-controller="Department" asp-action="Index" class="btn btn-outline-success"><i class="bi bi-gear"></i> Departments</a>
+                        <a asp-controller="Student" asp-action="Index" class="btn btn-outline-info"><i class="bi bi-gear"></i> Students</a>
+                        <a asp-controller="Instructor" asp-action="Index" class="btn btn-outline-warning"><i class="bi bi-gear"></i> Instructors</a>
+                        <a asp-controller="Role" asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-gear"></i> Roles</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Extract data from Model
+        const deptLabels = @Html.Raw(Json.Serialize(Model.DeptEnrollment.Select(x => x.Label)));
+        const deptData = @Html.Raw(Json.Serialize(Model.DeptEnrollment.Select(x => x.Value)));
+
+        const courseLabels = @Html.Raw(Json.Serialize(Model.CourseAvgMarks.Select(x => x.Label)));
+        const courseData = @Html.Raw(Json.Serialize(Model.CourseAvgMarks.Select(x => x.Value)));
+
+        const genderLabels = @Html.Raw(Json.Serialize(Model.GenderDist.Select(x => x.Label)));
+        const genderData = @Html.Raw(Json.Serialize(Model.GenderDist.Select(x => x.Value)));
+
+        const popularLabels = @Html.Raw(Json.Serialize(Model.PopularCourses.Select(x => x.Label)));
+        const popularData = @Html.Raw(Json.Serialize(Model.PopularCourses.Select(x => x.Value)));
+
+        // Common Colors
+        const colors = [
+            '#0d6efd', '#198754', '#0dcaf0', '#ffc107', '#dc3545', 
+            '#6610f2', '#fd7e14', '#20c997', '#e83e8c', '#adb5bd'
+        ];
+
+        // 1. Dept Enrollment Chart
+        new Chart(document.getElementById('deptChart'), {
+            type: 'doughnut',
+            data: {
+                labels: deptLabels,
+                datasets: [{
+                    data: deptData,
+                    backgroundColor: colors,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Course Marks Chart
+        new Chart(document.getElementById('courseChart'), {
+            type: 'bar',
+            data: {
+                labels: courseLabels,
+                datasets: [{
+                    label: 'Avg Grade',
+                    data: courseData,
+                    backgroundColor: '#0d6efd',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        // 3. Gender Chart
+        new Chart(document.getElementById('genderChart'), {
+            type: 'pie',
+            data: {
+                labels: genderLabels,
+                datasets: [{
+                    data: genderData,
+                    backgroundColor: ['#0d6efd', '#e83e8c', '#adb5bd']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 4. Popular Courses Chart
+        new Chart(document.getElementById('popularChart'), {
+            type: 'bar',
+            data: {
+                labels: popularLabels,
+                datasets: [{
+                    label: 'Students Enrolled',
+                    data: popularData,
+                    backgroundColor: '#198754',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+}
