@@ -110,9 +110,11 @@ namespace mvcLab.Controllers
 
             var lessons = await _context.Lessons.Where(l => l.CourseId == id).ToListAsync();
             var assignments = await _context.Assignments.Where(a => a.CourseId == id).ToListAsync();
+            var announcements = await _context.Announcements.Where(n => n.CourseId == id).OrderByDescending(n => n.DatePosted).ToListAsync();
 
             ViewBag.Lessons = lessons;
             ViewBag.Assignments = assignments;
+            ViewBag.Announcements = announcements;
 
             return View(course);
         }
@@ -190,6 +192,43 @@ namespace mvcLab.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("ViewSubmissions", new { assignmentId = submission.AssignmentId });
+        }
+
+        // CREATE ANNOUNCEMENT
+        [HttpGet]
+        public IActionResult CreateAnnouncement(int courseId)
+        {
+            ViewBag.CourseId = courseId;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAnnouncement(Announcement announcement)
+        {
+            if (ModelState.IsValid)
+            {
+                announcement.DatePosted = DateTime.Now;
+                _context.Announcements.Add(announcement);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("CourseDetails", new { id = announcement.CourseId });
+            }
+            ViewBag.CourseId = announcement.CourseId;
+            return View(announcement);
+        }
+
+        // DELETE ANNOUNCEMENT
+        [HttpPost]
+        public async Task<IActionResult> DeleteAnnouncement(int id)
+        {
+            var announcement = await _context.Announcements.FindAsync(id);
+            if (announcement != null)
+            {
+                int courseId = announcement.CourseId;
+                _context.Announcements.Remove(announcement);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("CourseDetails", new { id = courseId });
+            }
+            return NotFound();
         }
     }
 }

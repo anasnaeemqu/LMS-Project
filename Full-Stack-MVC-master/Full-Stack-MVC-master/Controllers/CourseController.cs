@@ -29,8 +29,15 @@ namespace mvcLab.Controllers
                                 .ThenInclude(c => c.Student)
                                 .FirstOrDefault(s => s.Num == id);
 
-            return View(courseDetails);
+            if (courseDetails != null)
+            {
+                ViewBag.Announcements = context.Announcements
+                    .Where(a => a.CourseId == id)
+                    .OrderByDescending(a => a.DatePosted)
+                    .ToList();
+            }
 
+            return View(courseDetails);
         }
         [Authorize(Roles = "Admin")]
 
