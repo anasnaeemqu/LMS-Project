@@ -23,6 +23,7 @@ namespace mvcLab.Models
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Submission> Submissions { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
 
     }
 }
