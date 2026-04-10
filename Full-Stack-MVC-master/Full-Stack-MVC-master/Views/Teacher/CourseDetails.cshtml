@@ -8,53 +8,110 @@
     <h2>@Model.Name</h2>
     <p class="text-muted">@Model.Description</p>
     
-    <div class="row mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-primary"><i class="fa fa-bullhorn me-2"></i> Announcements</h5>
+                    <a asp-action="CreateAnnouncement" asp-route-courseId="@Model.Num" class="btn btn-sm btn-primary">
+                        <i class="fa fa-plus me-1"></i> Add Announcement
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @if (ViewBag.Announcements != null && ((IEnumerable<mvcLab.Models.Announcement>)ViewBag.Announcements).Any())
+                        {
+                            foreach (var n in (IEnumerable<mvcLab.Models.Announcement>)ViewBag.Announcements)
+                            {
+                                <li class="list-group-item py-3">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1 fw-bold">@n.Title</h6>
+                                        <small class="text-muted">@n.DatePosted.ToString("MMM dd, yyyy")</small>
+                                    </div>
+                                    <p class="mb-2 text-muted small">@n.Content</p>
+                                    <form asp-action="DeleteAnnouncement" asp-route-id="@n.Id" method="post" onsubmit="return confirm('Delete this announcement?');">
+                                        <button type="submit" class="btn btn-link p-0 text-danger small text-decoration-none">
+                                            <i class="fa fa-trash-can me-1"></i> Delete
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item py-4 text-center text-muted">
+                                <i class="fa fa-info-circle mb-2 d-block fs-4"></i>
+                                No announcements yet.
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <!-- Lessons Section -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Lessons</h5>
-                    <a asp-action="UploadLesson" asp-route-courseId="@Model.Num" class="btn btn-sm btn-light">Add Lesson</a>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-success"><i class="fa fa-book-open me-2"></i> Lessons</h5>
+                    <a asp-action="UploadLesson" asp-route-courseId="@Model.Num" class="btn btn-sm btn-light border">Add Lesson</a>
                 </div>
                 <ul class="list-group list-group-flush">
-                    @if (ViewBag.Lessons != null)
+                    @if (ViewBag.Lessons != null && ((IEnumerable<mvcLab.Models.Lesson>)ViewBag.Lessons).Any())
                     {
                         foreach (var lesson in (IEnumerable<mvcLab.Models.Lesson>)ViewBag.Lessons)
                         {
-                            <li class="list-group-item">
-                                <strong>@lesson.Title</strong>
-                                @if(!string.IsNullOrEmpty(lesson.VideoUrl)) { <br/><small><a href="@lesson.VideoUrl" target="_blank">Watch Video</a></small> }
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div>
+                                    <span class="fw-bold">@lesson.Title</span>
+                                    @if(!string.IsNullOrEmpty(lesson.VideoUrl)) { <br/><small><a href="@lesson.VideoUrl" target="_blank" class="text-decoration-none text-info"><i class="fa fa-video me-1"></i> Watch Video</a></small> }
+                                </div>
                             </li>
                         }
+                    }
+                    else
+                    {
+                        <li class="list-group-item py-4 text-center text-muted">No lessons.</li>
                     }
                 </ul>
             </div>
         </div>
 
         <!-- Assignments Section -->
-        <div class="col-md-6">
-             <div class="card">
-                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Assignments</h5>
-                    <a asp-action="CreateAssignment" asp-route-courseId="@Model.Num" class="btn btn-sm btn-light">Add Assignment</a>
+        <div class="col-md-6 mb-4">
+             <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 text-info"><i class="fa fa-file-signature me-2"></i> Assignments</h5>
+                    <a asp-action="CreateAssignment" asp-route-courseId="@Model.Num" class="btn btn-sm btn-light border">Add Assignment</a>
                 </div>
                 <ul class="list-group list-group-flush">
-                    @if (ViewBag.Assignments != null)
+                    @if (ViewBag.Assignments != null && ((IEnumerable<mvcLab.Models.Assignment>)ViewBag.Assignments).Any())
                     {
                         foreach (var assign in (IEnumerable<mvcLab.Models.Assignment>)ViewBag.Assignments)
                         {
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>@assign.Title <br/> <small>Due: @assign.DueDate</small></span>
+                            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div>
+                                    <span class="fw-bold">@assign.Title</span>
+                                    <br/> <small class="text-muted"><i class="fa fa-clock me-1"></i> Due: @assign.DueDate?.ToString("MMM dd")</small>
+                                </div>
                                 <a asp-action="ViewSubmissions" asp-route-assignmentId="@assign.Id" class="btn btn-sm btn-outline-primary">Submissions</a>
                             </li>
                         }
+                    }
+                    else
+                    {
+                        <li class="list-group-item py-4 text-center text-muted">No assignments.</li>
                     }
                 </ul>
             </div>
         </div>
     </div>
     
-    <div class="mt-3">
-        <a asp-action="Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    <div class="mt-2 mb-5">
+        <a asp-action="Dashboard" class="btn btn-secondary">
+            <i class="fa fa-arrow-left me-1"></i> Back to Dashboard
+        </a>
     </div>
 </div>
